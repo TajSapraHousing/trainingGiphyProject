@@ -20,8 +20,8 @@ const serverConfig={
             {
                 test: /\.css$/,
                 use:[
-                    'css-loader',
-                    'style-loader'
+                    'style-loader',
+                    'css-loader'
                 ],
             },
         ]
@@ -48,8 +48,8 @@ const clientConfig={
             {
                 test: /\.css$/,
                 use:[
-                    'css-loader',
-                    'style-loader'
+                    'style-loader',
+                    'css-loader'
                 ],
             },
         ]

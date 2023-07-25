@@ -1,0 +1,40 @@
+.display{
+    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+}
+body{
+    margin: 0;
+    background-color: black;
+}
+.displayContainer{
+    height: 10%;
+    width: 100%;
+}
+.navdisplay{
+    height: 100%;
+}
+.mynavbar{
+    justify-content: space-around;
+    height: 100%;
+}
+.mynavbar input{
+    display: unset;
+    width: 60%;
+    margin-right: 10%;
+}
+form{
+    width: 45%;
+}
+h1{
+    padding-top: 2%;
+    text-align: center;
+}
+.resultsContainer{
+    border-top: 1px solid white;
+}
+.homeContainer{
+    height: 90%;
+    width: 100%;
+    color: white
+}

@@ -1,10 +1,6 @@
-const valueReducer = (state = 'World', action) => {
-    if(action.type=='Change'){
-        state=action.payload;
-    }
-    else{
-        state= '';
-    }
-    return state;
-};
-export default valueReducer;
+import { combineReducers } from 'redux';
+import valueReducer from './valueReducer';
+const reducers = combineReducers({
+  valueReducer,
+});
+export default reducers;
