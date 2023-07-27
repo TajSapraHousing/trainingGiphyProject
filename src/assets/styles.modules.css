@@ -1,7 +1,7 @@
 .display{
     min-height: 100vh;
     height: 100vh;
-    width: 100vw;
+    width: 99vw;
 }
 body{
     margin: 0;
@@ -36,5 +36,27 @@ h1{
 .homeContainer{
     height: 90%;
     width: 100%;
+    justify-content: space-evenly;
+    display: flex;
     color: white
+}
+.resultsContainer1{
+    height: 90%;
+    width: 100%;
+    color: white    
+}
+.card{
+    width: 46%;
+    border: 1px white solid;
+    margin:30%;
+    border-radius:1.395vw ;
+}
+.card img{
+    border-radius:1.395vw ;
+
+}
+.cols{
+    width: 20%;
+    height: fit-content;
+    border: 1px solid red;
 }
