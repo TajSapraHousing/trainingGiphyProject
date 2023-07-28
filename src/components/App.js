@@ -6,7 +6,7 @@ import Results from './pages/Results'
 import styles from '../assets/styles.modules.css'
 export default function App() {
   return (
-    <div className={styles.display}>
+    <div className={styles.display} onScroll={(e)=>{console.log('scrolling')}}>
         <Navbar />
         <Routes>   
             <Route path='/' element={<Home />}></Route>     

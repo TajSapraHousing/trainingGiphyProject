@@ -20,7 +20,6 @@ export default function Home() {
     const url = `${apiUrl}?${queryParams}`;
     const response = await fetch(url);        
     const respdata=await response.json()
-    console.log(respdata.data)
     setTrending(respdata.data)
   }
   return (

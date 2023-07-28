@@ -15,16 +15,19 @@ body{
     height: 100%;
 }
 .mynavbar{
+    align-content: center;
     justify-content: space-around;
     height: 100%;
 }
 .mynavbar input{
     display: unset;
-    width: 60%;
+    width: 75%;
     margin-right: 10%;
 }
 form{
+    height: 5vh;
     width: 45%;
+    display: flex;
 }
 h1{
     padding-top: 2%;
@@ -32,6 +35,8 @@ h1{
 }
 .resultsContainer{
     border-top: 1px solid white;
+    display: flex;
+    justify-content: space-evenly;
 }
 .homeContainer{
     height: 90%;
@@ -59,4 +64,24 @@ h1{
     width: 20%;
     height: fit-content;
     border: 1px solid red;
+    border-radius:1.395vw ;
+}
+
+.autoCompleteContainer{
+    height: 22vh;
+    width: 75%;
+    position: relative;
+    background-color: white;
+    overflow: scroll;
+}
+.searchCard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+    cursor: pointer;
+    border-bottom: 1px solid grey;
+}
+.logo{
+    cursor: pointer;
 }
