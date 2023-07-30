@@ -45,6 +45,9 @@ h1{
     display: flex;
     color: white
 }
+.searchFooter{
+    height: 10%;
+}
 .resultsContainer1{
     height: 90%;
     width: 100%;
