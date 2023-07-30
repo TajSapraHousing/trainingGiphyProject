@@ -8,7 +8,6 @@ export default function columns(props) {
             let counter=0
             setCards(props.cardsdata.map(element => {
                 if (counter==8)
-                console.log(element, counter)
                 counter+=1
                 let datasource=element.images.preview_gif.url
                 if(!datasource){
