@@ -16,7 +16,6 @@ export default function Results() {
         q: searchedData,
         limit: 40
       });    
-
       const url = `${apiUrl}?${queryParams}`;
       console.log("Here Checker")
       fetch(url).then((response)=>{
@@ -98,6 +97,7 @@ export default function Results() {
       setNextOffset(mergedData.length) 
     })
   }
+
   useEffect(()=>{
     const intersectionObserver = new IntersectionObserver(entries => {
       console.log(entries[0].isIntersecting)
@@ -117,13 +117,12 @@ export default function Results() {
     <>
     {serverData?(    
       <div className={styles.resultsContainer1}>
-      <h1>Search Results: Showing {serverData.length} results</h1>
+      <h1>Search Results:</h1>
       <div className={styles.resultsContainer}>
           <>
-            {serverData.length>=1&&(            <GifColumns cardsdata={serverData.slice(0,Math.max(serverData.length/4, 1))}/>)}
-            {serverData.length>=2&&(            <GifColumns cardsdata={serverData.slice(Math.max(serverData.length/4, 1), Math.max(serverData.length/2, 2))}/>)}
-            {serverData.length>=3&&(            <GifColumns cardsdata={serverData.slice(Math.max(serverData.length/2, 2), Math.max(((serverData.length*3)/4),3))}/>)}
-
+            {serverData.length>=1&&(<GifColumns cardsdata={serverData.slice(0,Math.max(serverData.length/4, 1))}/>)}
+            {serverData.length>=2&&(<GifColumns cardsdata={serverData.slice(Math.max(serverData.length/4, 1), Math.max(serverData.length/2, 2))}/>)}
+            {serverData.length>=3&&(<GifColumns cardsdata={serverData.slice(Math.max(serverData.length/2, 2), Math.max(((serverData.length*3)/4),3))}/>)}
             {serverData.length>=4&&(<GifColumns cardsdata={serverData.slice(serverData.length*(3/4))}/>)}
           </>
       </div>

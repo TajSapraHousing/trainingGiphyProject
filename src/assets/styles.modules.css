@@ -37,13 +37,17 @@ h1{
     border-top: 1px solid white;
     display: flex;
     justify-content: space-evenly;
+    padding-left: 25%;
+    padding-right: 25%;
 }
 .homeContainer{
     height: 90%;
     width: 100%;
     justify-content: space-evenly;
     display: flex;
-    color: white
+    color: white;
+    padding-left: 25%;
+    padding-right: 25%;
 }
 .searchFooter{
     height: 10%;
@@ -51,22 +55,17 @@ h1{
 .resultsContainer1{
     height: 90%;
     width: 100%;
-    color: white    
+    color: white;    
 }
 .card{
-    width: 46%;
+    width: fit-content;
     border: 1px white solid;
-    margin:30%;
-    border-radius:1.395vw ;
+    margin-top: 5%;
 }
-.card img{
-    border-radius:1.395vw ;
 
-}
 .cols{
     width: 20%;
     height: fit-content;
-    border: 1px solid red;
     border-radius:1.395vw ;
 }
 
