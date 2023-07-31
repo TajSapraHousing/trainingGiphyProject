@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../../assets/styles.modules.css'
 import {tokens} from '../../../tokens'
-import {Creators} from '../../state'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import GifColumns from '../unit/columns'
 export default function Home() {
   const [trendingData, setTrending]=useState('')
