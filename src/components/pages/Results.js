@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from '../../assets/styles.modules.css'
-import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import GifColumns from '../unit/columns'
-import { Creators } from '../../state'
+import Navbar from '../unit/Navbar'
 import { tokens } from '../../../tokens'
 export default function Results() {
   const searchedData=useParams().id
@@ -115,6 +114,7 @@ export default function Results() {
 
   return (
     <>
+    <Navbar />
     {serverData?(    
       <div className={styles.resultsContainer1}>
       <h1>Search Results:</h1>

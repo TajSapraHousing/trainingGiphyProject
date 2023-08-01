@@ -1,18 +1,12 @@
 import React from 'react';
-import {Routes, Route} from 'react-router-dom';
-import Navbar from './unit/Navbar';
-import Home from './pages/Home';
-import Results from './pages/Results';
 import styles from '../assets/styles.modules.css';
+import routes from '../../routes';
+import { renderRoutes } from 'react-router-config';
 
 export default function App() {
   return (
     <div className={styles.display}>
-      <Navbar />
-      <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/search/:id' element={<Results />}></Route>
-      </Routes>
+      {renderRoutes(routes)}
     </div>
   );
 }
