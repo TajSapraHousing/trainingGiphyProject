@@ -1,34 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from '../../assets/styles.modules.css'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import GifColumns from '../unit/columns'
 import Navbar from '../unit/Navbar'
 import { tokens } from '../../../tokens'
+
+export const getInitialSearchData=async (reqUrl)=>{
+  const apiUrl = 'https://api.giphy.com/v1/gifs/search';
+  const queryParams = new URLSearchParams({
+      api_key: tokens.GiphyKey,
+      limit: 40,
+      offset:0
+  });
+  const url = `${apiUrl}?${queryParams}`;
+  const response = await fetch(url);        
+  const respdata=await response.json()
+  return respdata.data
+}
 export default function Results() {
   const searchedData=useParams().id
-  console.log('hello world', window.ApiData==='')
+  const location=useLocation()
   useEffect(()=>{
-    if(window.ApiData===''){
-      const apiUrl = 'https://api.giphy.com/v1/gifs/search';
-      const queryParams = new URLSearchParams({
-        api_key: tokens.GiphyKey,
-        q: searchedData,
-        limit: 40
-      });    
-      const url = `${apiUrl}?${queryParams}`;
-      console.log("Here Checker")
-      fetch(url).then((response)=>{
-        response.json().then((respdata)=>{
-          window.ApiData=respdata.data
-          window.ApiData.filter(function( element ) {
-            return element !== undefined;
-         });
-          SetServerData(window.ApiData)
-          console.log(window.ApiData)
-        })  
-      });        
+    if(!window.ApiData){
+      window.ApiData=getInitialSearchData(location.pathname)
     }
-      
+    SetServerData(window.ApiData)
   })
   useEffect(()=>{
     const apiUrl = 'https://api.giphy.com/v1/gifs/search';
@@ -39,7 +35,6 @@ export default function Results() {
     });    
 
     const url = `${apiUrl}?${queryParams}`;
-    console.log("Here Checker")
     fetch(url).then((response)=>{
       response.json().then((respdata)=>{
         window.ApiData=respdata.data
@@ -47,12 +42,11 @@ export default function Results() {
           return element !== undefined;
        });
         SetServerData(window.ApiData)        
-        console.log(window.ApiData)
       })  
     });            
   }, [searchedData])
   const [nextOffset, setNextOffset]=useState(40)
-  const [serverData, SetServerData]=useState(window.ApiData.data)
+  const [serverData, SetServerData]=useState('')
   const lastElementRef=useRef(null)
   const helper=(oldD, newD)=>{
     let fcp=(oldD.length/4)
@@ -75,9 +69,7 @@ export default function Results() {
   const getNewData=async()=>{
     if(serverData==undefined){
       await SetServerData(window.ApiData.data)
-      console.log(serverData)    
     }
-    console.log("Here1")
     const apiUrl = 'https://api.giphy.com/v1/gifs/search';
     const queryParams = new URLSearchParams({
       api_key: tokens.GiphyKey,
@@ -86,20 +78,16 @@ export default function Results() {
       offset:nextOffset
     });
     const url = `${apiUrl}?${queryParams}`;
-    console.log("Here2")
     const response = await fetch(url);        
     response.json().then((respdata)=>{
       let mergedData=helper(serverData,respdata.data)
-      console.log("Here3", mergedData)
       SetServerData(mergedData)     
-      console.log("Here4", nextOffset, mergedData.length, serverData.length)
       setNextOffset(mergedData.length) 
     })
   }
 
   useEffect(()=>{
     const intersectionObserver = new IntersectionObserver(entries => {
-      console.log(entries[0].isIntersecting)
       if (entries[0].isIntersecting&&serverData.length>=40){
         getNewData()
       }

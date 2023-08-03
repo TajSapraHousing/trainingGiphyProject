@@ -3,13 +3,13 @@ import React from "react";
 import request from "request";
 import { tokens } from "./tokens";
 import { renderToString } from 'react-dom/server'
-import { Provider } from "react-redux";
-import {StaticRouter} from 'react-router-dom/server'
+import { Provider } from 'react-redux'
+import { StaticRouter } from 'react-router-dom/server'
 import { applyMiddleware, legacy_createStore as createStore } from "redux";
 import thunk from "redux-thunk";
-
+import App from './src/components/App'
 import reducers from './src/state/reducers/index'
-import { matchRoutes, renderRoutes } from "react-router-config";
+import { matchRoutes, renderRoutes } from 'react-router-config'
 import routes from "./routes";
 import { matchPath } from "react-router";
 const app=express()
@@ -42,8 +42,11 @@ const renderedPage=(jsx, preLoadedState, ApiData='')=>{
     </html>
     `
 }
-let matches=[]
-const myMatcher=(routes, location)=>{
+let matches
+const myMatcher=(routes, location, first=false)=>{
+    if(first){
+      matches=[]
+    }
     routes.forEach(element => {
         const matched=matchPath(element, location)
         if(matched){
@@ -55,27 +58,24 @@ const myMatcher=(routes, location)=>{
     });
 }
 const loadBranchData=(location)=>{
-    myMatcher(routes, location)
+    myMatcher(routes, location, true)
     const promises=matches.map(match =>match.loadData())
     return promises
 }
 app.get('*', (req,res)=>{
     const preLoadedState=store.getState()
     const data=loadBranchData(req.path)
-    Promise.all(data).then((final_data)=>{
-        console.log('here1')
+        Promise.all(data).then((final_data)=>{
         const jsx=renderToString(
-            <Provider store={store}>
-              <StaticRouter location={req.path} context={{}}>
-                <div>{renderRoutes(routes)}</div>
-              </StaticRouter>
-            </Provider>
-          )      
-        console.log('here2')
-        res.render(renderedPage(jsx, preLoadedState,final_data[0]))
+          <Provider store={store}>
+            <StaticRouter location={req.path}>
+              <App />
+            </StaticRouter>
+          </Provider>
+        )      
+          res.send(renderedPage(jsx, preLoadedState,final_data[0]))
     })
 })
-
 app.listen(port, ()=>{
     console.log(`listening on port: ${port}`)
 })

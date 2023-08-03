@@ -18,20 +18,23 @@ export const getTrendingResults=async(reqUrl)=>{
 export default function Home() {
   const [trendingData, setTrending]=useState('')
   useEffect(()=>{
-    getTrendingResults()
-    setTrending(getTrendingResults('/'))
-
-  },[])
+    if(!window.ApiData){
+      window.ApiData=getTrendingResults('/')
+    }
+    setTrending(window.ApiData)
+  })
   return (
     <>
     <Navbar />
-    <h1 style={{textAlign:'center', color:'white', marginBottom:'3%', paddingTop:'0', marginTop:'3%'}}>Trending Gifs</h1>
+    {trendingData&&(<>
+      <h1 style={{textAlign:'center', color:'white', marginBottom:'3%', paddingTop:'0', marginTop:'3%'}}>Trending Gifs</h1>
     <div className={styles.homeContainer}>
       <GifColumns cardsdata={trendingData.slice(0,trendingData.length/4)}/>
       <GifColumns cardsdata={trendingData.slice(trendingData.length/4, trendingData.length/2)}/>
       <GifColumns cardsdata={trendingData.slice(trendingData.length/2, trendingData.length*3/4)}/>
       <GifColumns cardsdata={trendingData.slice(trendingData.length*(3/4))}/>
-    </div>     
+    </div>    
+    </>)} 
     </>
   )
 }

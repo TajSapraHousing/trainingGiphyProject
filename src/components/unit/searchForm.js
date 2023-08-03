@@ -14,7 +14,6 @@ export default function () {
     const [showSwitch, setSwitch]=useState(0)
     const data=useSelector(state=>state.valueReducer)
     const handleSearchCardClick=(e)=>{
-        console.log(e.target.innerText)
         dispatch(Creators.changeVal(e.target.innerText))
         navigate(`/search/${e.target.innerText}`)
     }
@@ -37,7 +36,6 @@ export default function () {
             q: data,
             limit: 20,
         });
-        console.log(queryParams)
         const url = `${apiUrl}?${queryParams}`;
         const response = await fetch(url);        
         const respdata=await response.json()
