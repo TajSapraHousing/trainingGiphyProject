@@ -2,14 +2,16 @@ import express from "express";
 import React from "react";
 import request from "request";
 import { tokens } from "./tokens";
-import ReactDomServer,{ renderToString } from 'react-dom/server'
-import { Provider } from "react-redux";
-import {StaticRouter} from 'react-router-dom/server'
+import { renderToString } from 'react-dom/server'
+import { Provider } from 'react-redux'
+import { StaticRouter } from 'react-router-dom/server'
 import { applyMiddleware, legacy_createStore as createStore } from "redux";
 import thunk from "redux-thunk";
-
 import App from './src/components/App'
 import reducers from './src/state/reducers/index'
+import { matchRoutes, renderRoutes } from 'react-router-config'
+import routes from "./routes";
+import { matchPath } from "react-router";
 const app=express()
 const port=3000
 app.use(express.static('dist'))
@@ -40,44 +42,40 @@ const renderedPage=(jsx, preLoadedState, ApiData='')=>{
     </html>
     `
 }
+let matches
+const myMatcher=(routes, location, first=false)=>{
+    if(first){
+      matches=[]
+    }
+    routes.forEach(element => {
+        const matched=matchPath(element, location)
+        if(matched){
+            matches.push(element)
+            if(element.routes){
+                myMatcher(element.routes, location)
+            }
+        }        
+    });
+}
+const loadBranchData=(location)=>{
+    myMatcher(routes, location, true)
+    const promises=matches.map(match =>match.loadData())
+    return promises
+}
 app.get('*', (req,res)=>{
-    if(req.url.split('/').length==2){
+    const preLoadedState=store.getState()
+    const data=loadBranchData(req.path)
+        Promise.all(data).then((final_data)=>{
         const jsx=renderToString(
-            <Provider store={store}>
-                <StaticRouter>
-                    <App />
-                </StaticRouter>
-            </Provider>
-        )
-        const preLoadedState=store.getState()
-        res.send(renderedPage(jsx, preLoadedState))
-    }
-    else if(req.url.split('/').length==3&&req.url.split('/')[1]=='search'){
-        const body={
-            api_key: tokens.GiphyKey,
-            q: decodeURI(req.url).split('/')[2],
-            limit: 40,
-            offset:0
-        }
-        request({
-            url:'https://api.giphy.com/v1/gifs/search',
-            method:'GET',
-            qs:body
-        }, (err, response, body)=>{
-            const ApiData=JSON.parse(body)
-            const jsx=renderToString(
-                <Provider store={store}>
-                    <StaticRouter>
-                        <App />
-                    </StaticRouter>
-                </Provider>
-            )
-            const preLoadedState=store.getState()
-            res.send(renderedPage(jsx, preLoadedState, ApiData))
-       })
-    }
+          <Provider store={store}>
+            <StaticRouter location={req.path}>
+              <App />
+            </StaticRouter>
+          </Provider>
+        )      
+          res.send(renderedPage(jsx, preLoadedState,final_data[0]))
+    })
 })
-
 app.listen(port, ()=>{
     console.log(`listening on port: ${port}`)
 })
